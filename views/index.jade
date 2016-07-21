@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // build:css css/main.min.css
+    link(rel='stylesheet', href='css/bootstrap.css')
+    link(rel='stylesheet', href='css/main.css')
+    // endbuild
+    title Bootstrap
+  body
+    h1 Headline
+    div#node
+    p 
+     | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
+     | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+     | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+    // build:js js/main.min.js
+    script(src='../bower_components/jquery/dist/jquery.js')
+    script(src='../bower_components/bootstrap-sass/assets/javascripts/bootstrap.js')
+    script(src='js/main.js')
+    // endbuild

@@ -1,0 +1,21 @@
+{
+  "name": "lynda-bootstrap",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "John Korzhuk <jkorzhuk@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "^3.3.6",
+    "jquery": "2.2.4"
+  }
+}
