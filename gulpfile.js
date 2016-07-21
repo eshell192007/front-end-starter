@@ -71,10 +71,9 @@ gulp.task('views', function() {
 // so it's probably wrong. But it works!
 gulp.task('views-watch', ['views'], function(callback) {
   runSequence(
-    'useref',
+    'useref-watch',
     callback
   );
-  browserSync.reload();
 });
 
 // Compiles assets/sass/*.scss to assets/css
