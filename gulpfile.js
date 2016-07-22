@@ -47,6 +47,10 @@ gulp.task('img', ['clean:img'], function() {
     .pipe(gulp.dest(paths.dist + '/img'));
 });
 
+gulp.task('clean:assets', function() {
+  return del.sync([paths.assets + '/css']);
+});
+
 gulp.task('clean:img', function() {
   return del.sync([paths.dist + '/img']);
 });
@@ -79,7 +83,7 @@ gulp.task('views-watch', ['views'], function(callback) {
 
 // Compiles assets/sass/*.scss to assets/css
 // Initiates sourcemaps
-gulp.task('sass', function() {
+gulp.task('sass', ['clean:assets'], function() {
   return gulp.src(paths.sass)
     .pipe($.sourcemaps.init())
     .pipe($.sass().on('error', $.sass.logError))
