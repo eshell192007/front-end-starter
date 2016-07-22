@@ -42,6 +42,7 @@ gulp.task('fonts', ['clean:fonts'], function() {
 // Cleans the dist/img folder then caches and compresses the images
 gulp.task('img', ['clean:img'], function() {
   return gulp.src(paths.img)
+    .pipe($.changed(paths.dist + '/img'))
     .pipe($.cache($.imagemin()))
     .pipe(gulp.dest(paths.dist + '/img'));
 });
