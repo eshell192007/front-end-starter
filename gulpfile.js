@@ -33,8 +33,10 @@ gulp.task('browser-sync', function() {
 // Copy fonts
 gulp.task('fonts', ['clean:fonts'], function() {
   var bootstrapFonts = gulp.src(paths.bootstrapFonts)
+    .pipe($.size())
     .pipe(gulp.dest(paths.dist + '/fonts'));
   var fonts = gulp.src(paths.fonts)
+    .pipe($.size())
     .pipe(gulp.dest(paths.dist + '/fonts'));
   return merge(bootstrapFonts, fonts);
 });
@@ -43,7 +45,10 @@ gulp.task('fonts', ['clean:fonts'], function() {
 gulp.task('img', ['clean:img'], function() {
   return gulp.src(paths.img)
     .pipe($.changed(paths.dist + '/img'))
+    .pipe($.plumber({errorHandler: $.notify.onError({Error: '<%= error.message %>', sound : 'Bottle'}) }))
     .pipe($.cache($.imagemin()))
+    .pipe($.plumber.stop())
+    .pipe($.size())
     .pipe(gulp.dest(paths.dist + '/img'));
 });
 
@@ -66,9 +71,12 @@ gulp.task('clean:fonts', function() {
 // Compiles views/*.pug to assets
 gulp.task('views', function() {
   return gulp.src(paths.views)
+    .pipe($.plumber({errorHandler: $.notify.onError({Error: '<%= error.message %>', sound : 'Bottle'}) }))
     .pipe($.pug({
       pretty: true
     }))
+    .pipe($.plumber.stop())
+    .pipe($.size())
     .pipe(gulp.dest(paths.assets));
 });
 
@@ -85,9 +93,22 @@ gulp.task('views-watch', ['views'], function(callback) {
 // Initiates sourcemaps
 gulp.task('sass', ['clean:css'], function() {
   return gulp.src(paths.sass)
+    .pipe($.plumber({errorHandler: $.notify.onError({Error: '<%= error.message %>', sound : 'Bottle'}) }))
     .pipe($.sourcemaps.init())
     .pipe($.sass().on('error', $.sass.logError))
+    .pipe($.autoprefixer({
+      browsers: [
+        'last 2 versions',
+        'ie 9',
+        'ie 8',
+        'android 2.3',
+        'android 4',
+        'opera 12'
+      ]
+    }))
     .pipe($.sourcemaps.write())
+    .pipe($.plumber.stop())
+    .pipe($.size())
     .pipe(gulp.dest(paths.assets + '/css'))
     .pipe(browserSync.stream());
 });
@@ -97,10 +118,13 @@ gulp.task('sass', ['clean:css'], function() {
 gulp.task('useref', ['sass', 'views'], function() {
   return gulp.src(paths.assets + '/*.html')
     .pipe($.changed(paths.dist))
+    .pipe($.plumber({errorHandler: $.notify.onError({Error: '<%= error.message %>', sound : 'Bottle'}) }))
     .pipe($.useref({}, lazy().pipe($.sourcemaps.init, { loadMaps: true })))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', cleanCss()))
     .pipe($.sourcemaps.write())
+    .pipe($.plumber.stop())
+    .pipe($.size())
     .pipe(gulp.dest(paths.dist))
 });
 
